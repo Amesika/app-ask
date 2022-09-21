@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "AskMeteo",
+    "slug": "AskMeteo",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "05a03e63-da89-4eb3-b1ab-b9d1f751eb72"
+      }
+    }
+  },
+  "name": "AskMeteo"
+}
