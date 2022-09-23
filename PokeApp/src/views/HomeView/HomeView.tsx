@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import { Button, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Button, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { listPokeOriginal } from "../../data/PokemonList";
 import { Pokemon } from "../../models/Pokemon";
 import * as commonStyle from '../../utils/commonStyle'
+import { getRandomInt, shuffle } from "../../utils/utils";
 
 const HomeView = () => {
 
     const [counterPokedex, setCounterPokedex] = useState(0);
-    const [listPoke, setListPoke] = useState(listPokeOriginal);
+    const [listPoke, setListPoke] = useState<Pokemon[]>(undefined);
+    const [isDataReceived,setIsDataReceived] = useState(false);
 
     const onNext = () => {
         if (counterPokedex === listPoke.length - 1) {
@@ -36,7 +38,30 @@ const HomeView = () => {
         setListPoke(newArr);
     }
 
-
+    const fetchPokemon = () => {
+        const url = `https://pokeapi.co/api/v2/pokemon?limit=151`;
+        fetch(url)
+        .then(response => response.json() )
+        .then(json => {
+            const newArray = json.results
+            .map((pokemon:any,index:number)=> {
+                let indexPokedex = index + 1;
+                pokemon.id = indexPokedex;
+                pokemon.level = getRandomInt(40,80);
+                pokemon.isMale = true;
+                pokemon.src = 'https://cdn.traction.one/pokedex/pokemon/'+ indexPokedex+'.png';
+                return pokemon;
+            })
+            //console.log(newArray)
+            setListPoke(shuffle(newArray));
+            setIsDataReceived(true);
+        })
+        .catch(error => console.log('Error: ',error))
+    }
+    
+    useEffect(()=>{   
+        fetchPokemon();
+    }, [])
 
     return (
         <View style={style.mainContainer}>
@@ -44,11 +69,15 @@ const HomeView = () => {
                 <Text style={style.textTitle}>Pokédex Application</Text>
             </View>
             <View style={style.pokemonContainer}>
+                {isDataReceived ?
                 <PokemonInfo id={listPoke[counterPokedex].id} name={listPoke[counterPokedex].name}
                     level={listPoke[counterPokedex].level} isMale={listPoke[counterPokedex].isMale}
                     src={listPoke[counterPokedex].src}
                     onclickPokemon={modifyLevel}
-                /></View>
+                />:
+                <ActivityIndicator size="large"/>
+}
+                </View>
 
             <View style={style.buttonContainer}>
 
@@ -72,14 +101,13 @@ const HomeView = () => {
 
 
 const PokemonInfo = ({ name, level, isMale, src, onclickPokemon }: Pokemon) => {
-
     return (
         <>
             <Text style={style.textAppeared}>A new Pokemon appeared !</Text>
             <TouchableOpacity
                 onPress={() => onclickPokemon(name)}
             >
-                <Image style={style.imagePokemon} source={src} />
+                <Image style={style.imagePokemon} source={{uri: src}} />
             </TouchableOpacity>
             <Text>His name is {name}, his levelPokemon is {level}.</Text>
             {isMale ?
