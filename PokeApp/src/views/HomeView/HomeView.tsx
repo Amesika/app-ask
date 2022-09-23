@@ -4,18 +4,26 @@ import { listPokeOriginal } from "../../data/PokemonList";
 import { Pokemon } from "../../models/Pokemon";
 import * as commonStyle from '../../utils/commonStyle'
 import { getRandomInt, shuffle } from "../../utils/utils";
+import {connect} from 'react-redux'
 
 const HomeView = (props:any) => {
 
     const [counterPokedex, setCounterPokedex] = useState(0);
     const [listPoke, setListPoke] = useState<Pokemon[]>(undefined);
     const [isDataReceived,setIsDataReceived] = useState(false);
+
+    const onCapturePokemon = () => {
+        const currentPokemon = listPoke[counterPokedex];
+        const action = {type: 'ADD_TO_LIST_POKEMON', value: currentPokemon}
+        props.dispatch(action)
+    }
     
     const onViewPokemonDetails = (idPokemon:Number, namePokemon: string,srcPokemon:string) => {
         props.navigation.navigate('Details',{
             id: idPokemon,
             name: namePokemon,
-            src: srcPokemon
+            src: srcPokemon,
+            isReleasePossible: false
         });
     }
 
@@ -96,6 +104,12 @@ const HomeView = (props:any) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={style.buttonNextPrevious}
+                    onPress={() => onCapturePokemon()}
+                >
+                    <Image source={require('../../assets/icons/pokeball.png')} style={style.iconButton} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={style.buttonNextPrevious}
                     onPress={() => onNext()}
                 >
                     <Image source={require('../../assets/icons/right-arrow.png')} style={style.iconButton} />
@@ -169,4 +183,17 @@ const style = StyleSheet.create({
     }
 })
 
-export default HomeView;
+
+const mapStateToProps = (state: any) =>{
+    return {
+        arrayPokemonCaptured: state.arrayPokemonCaptured.arrayPokemonCaptured
+    }
+}
+
+const mapDispatchToProps = (dispatch: any) =>{
+    return {
+       dispatch: (action: any)=> { dispatch(action);}
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps) (HomeView);

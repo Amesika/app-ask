@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { listPokeOriginal } from "../../data/PokemonList";
 import * as commonStyle from '../../utils/commonStyle'
+import {connect} from 'react-redux'
 
 const MyPokemonView = (props: any) => {
 
@@ -11,13 +12,14 @@ const MyPokemonView = (props: any) => {
         props.navigation.navigate('Details',{
             id: idPokemon,
             name: namePokemon,
-            src: srcPokemon
+            src: srcPokemon,
+            isReleasePossible: true
         });
     }
     return (
         <View>
             <FlatList
-                data={listPokeOriginal}
+                data={props.arrayPokemonCaptured}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => <PokemonItem pokemon={item}  onClickPokemon={onViewPokemonDetails} />}
             />
@@ -90,4 +92,11 @@ const style = StyleSheet.create({
     }
 })
 
-export default MyPokemonView
+
+const mapStateToProps = (state: any) =>{
+    return {
+        arrayPokemonCaptured: state.arrayPokemonCaptured.arrayPokemonCaptured
+    }
+}
+
+export default connect(mapStateToProps) (MyPokemonView);

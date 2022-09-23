@@ -1,11 +1,12 @@
 import { Card } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
 import * as commonStyle from '../../utils/commonStyle'
+import {connect} from 'react-redux'
 
 const PokemonDetailsView = (props: any) => {
 
-    const { id, name, src } = props.route.params
+    const { id, name, src, isReleasePossible } = props.route.params
     const [weight, setWeight] = useState(undefined);
     const [height, setHeight] = useState(undefined);
     const [arrayTypes, setArrayTypes] = useState([]);
@@ -14,6 +15,11 @@ const PokemonDetailsView = (props: any) => {
     useEffect(() => {
         fetchPokemonDetails(id)
     }, [id])
+
+    const releasePokemon = (idPokemon:number) => {
+        const action = {type: 'REMOVE_POKEMON_IN_LIST', value: idPokemon}
+        props.dispatch(action);
+    }
 
     const fetchPokemonDetails = (idPokemon: number) => {
         const url = `https://pokeapi.co/api/v2/pokemon/${idPokemon}`;
@@ -53,6 +59,7 @@ const PokemonDetailsView = (props: any) => {
                         </View>
                     </View>
                 </View>
+                {isReleasePossible && <Button title="Release the Pokemon" onPress={()=> releasePokemon(id)} />}
             </Card>            
         </View>
     )
@@ -71,4 +78,10 @@ const style = StyleSheet.create({
     }
 })
 
-export default PokemonDetailsView
+const mapDispatchToProps = (dispatch: any) =>{
+    return {
+       dispatch: (action: any)=> { dispatch(action);}
+    }
+}
+
+export default connect(mapDispatchToProps) (PokemonDetailsView);
