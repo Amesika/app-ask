@@ -10,9 +10,7 @@ const HomeView = (props:any) => {
     const [counterPokedex, setCounterPokedex] = useState(0);
     const [listPoke, setListPoke] = useState<Pokemon[]>(undefined);
     const [isDataReceived,setIsDataReceived] = useState(false);
-
-    console.log('Props : ', props)
-
+    
     const onViewPokemonDetails = (idPokemon:Number, namePokemon: string,srcPokemon:string) => {
         props.navigation.navigate('Details',{
             id: idPokemon,
