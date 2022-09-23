@@ -5,11 +5,21 @@ import { Pokemon } from "../../models/Pokemon";
 import * as commonStyle from '../../utils/commonStyle'
 import { getRandomInt, shuffle } from "../../utils/utils";
 
-const HomeView = () => {
+const HomeView = (props:any) => {
 
     const [counterPokedex, setCounterPokedex] = useState(0);
     const [listPoke, setListPoke] = useState<Pokemon[]>(undefined);
     const [isDataReceived,setIsDataReceived] = useState(false);
+
+    console.log('Props : ', props)
+
+    const onViewPokemonDetails = (idPokemon:Number, namePokemon: string,srcPokemon:string) => {
+        props.navigation.navigate('Details',{
+            id: idPokemon,
+            name: namePokemon,
+            src: srcPokemon
+        });
+    }
 
     const onNext = () => {
         if (counterPokedex === listPoke.length - 1) {
@@ -52,7 +62,6 @@ const HomeView = () => {
                 pokemon.src = 'https://cdn.traction.one/pokedex/pokemon/'+ indexPokedex+'.png';
                 return pokemon;
             })
-            //console.log(newArray)
             setListPoke(shuffle(newArray));
             setIsDataReceived(true);
         })
@@ -73,7 +82,7 @@ const HomeView = () => {
                 <PokemonInfo id={listPoke[counterPokedex].id} name={listPoke[counterPokedex].name}
                     level={listPoke[counterPokedex].level} isMale={listPoke[counterPokedex].isMale}
                     src={listPoke[counterPokedex].src}
-                    onclickPokemon={modifyLevel}
+                    onclickPokemon={onViewPokemonDetails}
                 />:
                 <ActivityIndicator size="large"/>
 }
@@ -100,12 +109,12 @@ const HomeView = () => {
 
 
 
-const PokemonInfo = ({ name, level, isMale, src, onclickPokemon }: Pokemon) => {
+const PokemonInfo = ({ id, name, level, isMale, src, onclickPokemon }: Pokemon) => {
     return (
         <>
             <Text style={style.textAppeared}>A new Pokemon appeared !</Text>
             <TouchableOpacity
-                onPress={() => onclickPokemon(name)}
+                onPress={() => onclickPokemon(id,name,src)}
             >
                 <Image style={style.imagePokemon} source={{uri: src}} />
             </TouchableOpacity>
