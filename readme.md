@@ -1,4 +1,7 @@
 # Application AMESIKA
 
 ## Liste des applications
-    - AskMeteo
+ - AskMeteo
+ - AwesomeProject
+ - PokeApp
+ - demo-expo
