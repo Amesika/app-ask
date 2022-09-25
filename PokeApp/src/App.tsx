@@ -15,6 +15,7 @@ import LoginView from './views/LoginView/LoginView';
 import SignUpView from './views/SignUpView/SignUpView';
 import ProfileView from './views/ProfileView/ProfileView';
 import TestView from './views/TestView/TestView';
+import PresentationView from './views/onBoarding/PresentationView';
 
 const App = () => {
 
@@ -22,7 +23,7 @@ const App = () => {
 
   function HomeStackScreen() {
     return (
-      <HomeStack.Navigator initialRouteName='Profile'>
+      <HomeStack.Navigator initialRouteName='Home'>
         <HomeStack.Screen name="Home" component={HomeView}
          options={({navigation, route}) => ({ 
           unmountInactiveRoutes: true,
@@ -56,6 +57,7 @@ const App = () => {
   function TabNavigation() {
     return (
       <Tab.Navigator
+       initialRouteName='Presentation'
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === 'HomeStack') {
@@ -71,6 +73,7 @@ const App = () => {
       >
         <Tab.Screen name="HomeStack" component={HomeStackScreen} />
         <Tab.Screen name="MyPokemonStack" component={MyPokemonStackScreen} />
+        <Tab.Screen name="Presentation" component={PresentationView} />
       </Tab.Navigator>
     )
   }
