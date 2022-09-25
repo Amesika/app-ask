@@ -7,11 +7,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MyPokemonView from './views/MyPokemonView/MyPokemonView';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { persistStore} from "redux-persist";
+import { persistStore } from "redux-persist";
 import Store from './store/reducers/configureStore';
-import {PersistGate} from 'redux-persist/es/integration/react';
+import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
-
+import LoginView from './views/LoginView/LoginView';
+import SignUpView from './views/SignUpView/SignUpView';
+import ProfileView from './views/ProfileView/ProfileView';
+import TestView from './views/TestView/TestView';
 
 const App = () => {
 
@@ -19,9 +22,20 @@ const App = () => {
 
   function HomeStackScreen() {
     return (
-      <HomeStack.Navigator>
-        <HomeStack.Screen name="Home" component={HomeView} options={{ title: '', headerShown: false }} />
+      <HomeStack.Navigator initialRouteName='Profile'>
+        <HomeStack.Screen name="Home" component={HomeView}
+         options={({navigation, route}) => ({ 
+          unmountInactiveRoutes: true,
+          title: '', 
+          headerStyle: {
+            backgroundColor: '#FFF',
+          },
+          headerLeft: () => (
+            <FontAwesome style={{ marginLeft: 15}}  name='user-circle' size={30} color={'black'} onPress={()=> navigation.navigate('Profile')} />
+          ) })} 
+         />
         <HomeStack.Screen name="Details" component={PokemonDetailsView} options={{ title: 'Characteristics of the pokemon' }} />
+        <HomeStack.Screen name="Profile" component={ProfileView} options={{ title: 'My Profile' }} />
       </HomeStack.Navigator>
     )
   }
@@ -39,31 +53,50 @@ const App = () => {
 
   const Tab = createBottomTabNavigator();
 
-  let persistor = persistStore(Store) 
+  function TabNavigation() {
+    return (
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            if (route.name === 'HomeStack') {
+              return <FontAwesome name="home" size={size} color={color} />;
+            } else if (route.name === 'MyPokemonStack') {
+              return <MaterialCommunityIcons name="pokeball" size={size} color={color} />;
+            };
+          },
+          headerShown: false,
+          tabBarActiveTintColor: 'rgb(200,0,0 )',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        <Tab.Screen name="HomeStack" component={HomeStackScreen} />
+        <Tab.Screen name="MyPokemonStack" component={MyPokemonStackScreen} />
+      </Tab.Navigator>
+    )
+  }
+
+  const MainStack = createStackNavigator();
+
+  function MainStackScreen() {
+    return (
+      <MainStack.Navigator initialRouteName={'Login'}>
+        <MainStack.Screen name="Home" component={TabNavigation} options={{ headerShown: false }} />
+      <MainStack.Screen name="Login" component={LoginView} options={{ headerShown: false }} />
+      <MainStack.Screen name="SignUp" component={SignUpView} options={{  headerShown: false }} />
+    </MainStack.Navigator>
+    )
+  }
+
+
+  let persistor = persistStore(Store)
 
   return (
     <>
       <Provider store={Store}>
         <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <Tab.Navigator
-            screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
-                if (route.name === 'HomeStack') {
-                  return <FontAwesome name="home" size={size} color={color} />;
-                } else if (route.name === 'MyPokemonStack') {
-                  return <MaterialCommunityIcons name="pokeball" size={size} color={color} />;
-                };
-              },
-              headerShown: false,
-              tabBarActiveTintColor: 'rgb(200,0,0 )',
-              tabBarInactiveTintColor: 'gray',
-            })}
-          >
-            <Tab.Screen name="HomeStack" component={HomeStackScreen} />
-            <Tab.Screen name="MyPokemonStack" component={MyPokemonStackScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
+          <NavigationContainer>
+            <MainStackScreen />
+          </NavigationContainer>
         </PersistGate>
       </Provider>
     </>

@@ -1,4 +1,4 @@
-package com.pokeapp.newarchitecture.modules;
+package com.amesika.askpokemon.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

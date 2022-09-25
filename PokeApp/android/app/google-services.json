@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "691249906408",
+    "project_id": "pokeapp-6fa01",
+    "storage_bucket": "pokeapp-6fa01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691249906408:android:cf0ba8b231092f26f27f5d",
+        "android_client_info": {
+          "package_name": "com.amesika.askpokemon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691249906408-d4u2c2lhuc1aibio9r45e59repirjc1u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG-fXBAOf_Hx9N1624OFhgE_6nRgZAeUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691249906408-d4u2c2lhuc1aibio9r45e59repirjc1u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

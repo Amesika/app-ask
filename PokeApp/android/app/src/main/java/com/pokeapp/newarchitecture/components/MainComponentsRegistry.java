@@ -1,4 +1,4 @@
-package com.pokeapp.newarchitecture.components;
+package com.amesika.askpokemon.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

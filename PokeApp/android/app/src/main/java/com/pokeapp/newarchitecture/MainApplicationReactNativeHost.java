@@ -1,4 +1,4 @@
-package com.pokeapp.newarchitecture;
+package com.amesika.askpokemon.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.pokeapp.BuildConfig;
-import com.pokeapp.newarchitecture.components.MainComponentsRegistry;
-import com.pokeapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.amesika.askpokemon.BuildConfig;
+import com.amesika.askpokemon.newarchitecture.components.MainComponentsRegistry;
+import com.amesika.askpokemon.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

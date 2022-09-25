@@ -4,22 +4,22 @@ import { listPokeOriginal } from "../../data/PokemonList";
 import { Pokemon } from "../../models/Pokemon";
 import * as commonStyle from '../../utils/commonStyle'
 import { getRandomInt, shuffle } from "../../utils/utils";
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
 
-const HomeView = (props:any) => {
+const HomeView = (props: any) => {
 
     const [counterPokedex, setCounterPokedex] = useState(0);
     const [listPoke, setListPoke] = useState<Pokemon[]>(undefined);
-    const [isDataReceived,setIsDataReceived] = useState(false);
+    const [isDataReceived, setIsDataReceived] = useState(false);
 
     const onCapturePokemon = () => {
         const currentPokemon = listPoke[counterPokedex];
-        const action = {type: 'ADD_TO_LIST_POKEMON', value: currentPokemon}
+        const action = { type: 'ADD_TO_LIST_POKEMON', value: currentPokemon }
         props.dispatch(action)
     }
-    
-    const onViewPokemonDetails = (idPokemon:Number, namePokemon: string,srcPokemon:string) => {
-        props.navigation.navigate('Details',{
+
+    const onViewPokemonDetails = (idPokemon: Number, namePokemon: string, srcPokemon: string) => {
+        props.navigation.navigate('Details', {
             id: idPokemon,
             name: namePokemon,
             src: srcPokemon,
@@ -48,6 +48,7 @@ const HomeView = (props:any) => {
         console.log('My neighbour is ', listPoke[counterPokedex + 1].name)
     }
 
+
     const modifyLevel = () => {
         let newArr = [...listPoke]
         newArr[counterPokedex].level = listPoke[counterPokedex].level + 5
@@ -57,24 +58,24 @@ const HomeView = (props:any) => {
     const fetchPokemon = () => {
         const url = `https://pokeapi.co/api/v2/pokemon?limit=151`;
         fetch(url)
-        .then(response => response.json() )
-        .then(json => {
-            const newArray = json.results
-            .map((pokemon:any,index:number)=> {
-                let indexPokedex = index + 1;
-                pokemon.id = indexPokedex;
-                pokemon.level = getRandomInt(40,80);
-                pokemon.isMale = true;
-                pokemon.src = 'https://cdn.traction.one/pokedex/pokemon/'+ indexPokedex+'.png';
-                return pokemon;
+            .then(response => response.json())
+            .then(json => {
+                const newArray = json.results
+                    .map((pokemon: any, index: number) => {
+                        let indexPokedex = index + 1;
+                        pokemon.id = indexPokedex;
+                        pokemon.level = getRandomInt(40, 80);
+                        pokemon.isMale = true;
+                        pokemon.src = 'https://cdn.traction.one/pokedex/pokemon/' + indexPokedex + '.png';
+                        return pokemon;
+                    })
+                setListPoke(shuffle(newArray));
+                setIsDataReceived(true);
             })
-            setListPoke(shuffle(newArray));
-            setIsDataReceived(true);
-        })
-        .catch(error => console.log('Error: ',error))
+            .catch(error => console.log('Error: ', error))
     }
-    
-    useEffect(()=>{   
+
+    useEffect(() => {
         fetchPokemon();
     }, [])
 
@@ -85,14 +86,14 @@ const HomeView = (props:any) => {
             </View>
             <View style={style.pokemonContainer}>
                 {isDataReceived ?
-                <PokemonInfo id={listPoke[counterPokedex].id} name={listPoke[counterPokedex].name}
-                    level={listPoke[counterPokedex].level} isMale={listPoke[counterPokedex].isMale}
-                    src={listPoke[counterPokedex].src}
-                    onclickPokemon={onViewPokemonDetails}
-                />:
-                <ActivityIndicator size="large"/>
-}
-                </View>
+                    <PokemonInfo id={listPoke[counterPokedex].id} name={listPoke[counterPokedex].name}
+                        level={listPoke[counterPokedex].level} isMale={listPoke[counterPokedex].isMale}
+                        src={listPoke[counterPokedex].src}
+                        onclickPokemon={onViewPokemonDetails}
+                    /> :
+                    <ActivityIndicator size="large" />
+                }
+            </View>
 
             <View style={style.buttonContainer}>
 
@@ -112,7 +113,7 @@ const HomeView = (props:any) => {
                     style={style.buttonNextPrevious}
                     onPress={() => onNext()}
                 >
-                    <Image source={require('../../assets/icons/right-arrow.png')} style={style.iconButton} />
+                    <Image style={style.iconButton} source={require('../../assets/icons/right-arrow.png')} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -126,9 +127,9 @@ const PokemonInfo = ({ id, name, level, isMale, src, onclickPokemon }: Pokemon) 
         <>
             <Text style={style.textAppeared}>A new Pokemon appeared !</Text>
             <TouchableOpacity
-                onPress={() => onclickPokemon(id,name,src)}
+                onPress={() => onclickPokemon(id, name, src)}
             >
-                <Image style={style.imagePokemon} source={{uri: src}} />
+                <Image style={style.imagePokemon} source={{ uri: src }} />
             </TouchableOpacity>
             <Text>His name is {name}, his levelPokemon is {level}.</Text>
             {isMale ?
@@ -160,7 +161,7 @@ const style = StyleSheet.create({
         fontSize: 26,
         fontWeight: 'bold',
         color: 'rgb(200,0,0 )',
-        marginTop: 30 
+        marginTop: 30
     },
     imagePokemon: {
         width: 200,
@@ -176,7 +177,7 @@ const style = StyleSheet.create({
         ...commonStyle.elevationButton,
         ...commonStyle.roundedButton
     },
-    textAppeared:{
+    textAppeared: {
         marginBottom: 20,
         fontSize: 18,
         fontStyle: 'italic'
@@ -184,16 +185,16 @@ const style = StyleSheet.create({
 })
 
 
-const mapStateToProps = (state: any) =>{
+const mapStateToProps = (state: any) => {
     return {
         arrayPokemonCaptured: state.arrayPokemonCaptured.arrayPokemonCaptured
     }
 }
 
-const mapDispatchToProps = (dispatch: any) =>{
+const mapDispatchToProps = (dispatch: any) => {
     return {
-       dispatch: (action: any)=> { dispatch(action);}
+        dispatch: (action: any) => { dispatch(action); }
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps) (HomeView);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeView);
