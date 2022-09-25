@@ -48,7 +48,6 @@ const HomeView = (props: any) => {
         console.log('My neighbour is ', listPoke[counterPokedex + 1].name)
     }
 
-
     const modifyLevel = () => {
         let newArr = [...listPoke]
         newArr[counterPokedex].level = listPoke[counterPokedex].level + 5
@@ -119,8 +118,6 @@ const HomeView = (props: any) => {
         </View>
     )
 }
-
-
 
 const PokemonInfo = ({ id, name, level, isMale, src, onclickPokemon }: Pokemon) => {
     return (

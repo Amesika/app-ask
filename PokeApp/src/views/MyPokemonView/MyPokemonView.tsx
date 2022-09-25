@@ -1,15 +1,12 @@
-import { Card } from "@rneui/themed";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { listPokeOriginal } from "../../data/PokemonList";
-import * as commonStyle from '../../utils/commonStyle'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 const MyPokemonView = (props: any) => {
 
-    const onViewPokemonDetails = (idPokemon:Number, namePokemon: string,srcPokemon:string) => {
-        props.navigation.navigate('Details',{
+    const onViewPokemonDetails = (idPokemon: Number, namePokemon: string, srcPokemon: string) => {
+        props.navigation.navigate('Details', {
             id: idPokemon,
             name: namePokemon,
             src: srcPokemon,
@@ -21,7 +18,7 @@ const MyPokemonView = (props: any) => {
             <FlatList
                 data={props.arrayPokemonCaptured}
                 keyExtractor={item => item.id.toString()}
-                renderItem={({ item }) => <PokemonItem pokemon={item}  onClickPokemon={onViewPokemonDetails} />}
+                renderItem={({ item }) => <PokemonItem pokemon={item} onClickPokemon={onViewPokemonDetails} />}
             />
         </View>
     )
@@ -51,39 +48,39 @@ const PokemonItem = (props: any) => {
 }
 
 const style = StyleSheet.create({
-    mainContainer:{
-        flexDirection:'row'
+    mainContainer: {
+        flexDirection: 'row'
     },
-    image:{
-        width:60,
-        height:60,
-        margin:5,
-        borderRadius:30
+    image: {
+        width: 60,
+        height: 60,
+        margin: 5,
+        borderRadius: 30
     },
-    contentContainer:{
+    contentContainer: {
         flex: 1,
         margin: 5
     },
-    headerContainer:{
+    headerContainer: {
         flex: 3,
         flexDirection: 'row'
     },
-    dividerPokemon:{
+    dividerPokemon: {
         height: 1,
         width: '86%',
         backgroundColor: '#CED0CE',
         marginLeft: '14%'
     },
-    titleText:{
+    titleText: {
         fontWeight: 'bold',
         fontSize: 20,
         flex: 1
     },
-    levelText:{
+    levelText: {
         fontWeight: 'bold',
         fontStyle: 'italic',
         fontSize: 12,
-        color:'#555555'
+        color: '#555555'
     },
     imagePokemon: {
         width: 60,
@@ -93,10 +90,10 @@ const style = StyleSheet.create({
 })
 
 
-const mapStateToProps = (state: any) =>{
+const mapStateToProps = (state: any) => {
     return {
         arrayPokemonCaptured: state.arrayPokemonCaptured.arrayPokemonCaptured
     }
 }
 
-export default connect(mapStateToProps) (MyPokemonView);
+export default connect(mapStateToProps)(MyPokemonView);

@@ -2,7 +2,7 @@ import { Card } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import * as commonStyle from '../../utils/commonStyle'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 const PokemonDetailsView = (props: any) => {
 
@@ -11,13 +11,12 @@ const PokemonDetailsView = (props: any) => {
     const [height, setHeight] = useState(undefined);
     const [arrayTypes, setArrayTypes] = useState([]);
 
-
     useEffect(() => {
         fetchPokemonDetails(id)
     }, [id])
 
-    const releasePokemon = (idPokemon:number) => {
-        const action = {type: 'REMOVE_POKEMON_IN_LIST', value: idPokemon}
+    const releasePokemon = (idPokemon: number) => {
+        const action = { type: 'REMOVE_POKEMON_IN_LIST', value: idPokemon }
         props.dispatch(action);
     }
 
@@ -53,14 +52,14 @@ const PokemonDetailsView = (props: any) => {
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                             <Text>
-                            {arrayTypes.length !== 0 &&
-                arrayTypes.map((item, index) => <Text key={index}> {item} &</Text>)}
+                                {arrayTypes.length !== 0 &&
+                                    arrayTypes.map((item, index) => <Text key={index}> {item} &</Text>)}
                             </Text>
                         </View>
                     </View>
                 </View>
-                {isReleasePossible && <Button title="Release the Pokemon" onPress={()=> releasePokemon(id)} />}
-            </Card>            
+                {isReleasePossible && <Button title="Release the Pokemon" onPress={() => releasePokemon(id)} />}
+            </Card>
         </View>
     )
 }
@@ -78,10 +77,10 @@ const style = StyleSheet.create({
     }
 })
 
-const mapDispatchToProps = (dispatch: any) =>{
+const mapDispatchToProps = (dispatch: any) => {
     return {
-       dispatch: (action: any)=> { dispatch(action);}
+        dispatch: (action: any) => { dispatch(action); }
     }
 }
 
-export default connect(mapDispatchToProps) (PokemonDetailsView);
+export default connect(mapDispatchToProps)(PokemonDetailsView);

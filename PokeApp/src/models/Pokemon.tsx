@@ -1,8 +1,8 @@
 export type Pokemon = {
-    id:number,
+    id: number,
     name: string,
     level: number,
     isMale: boolean,
-    src:any,
-    onclickPokemon:any
+    src: any,
+    onclickPokemon: any
 }

@@ -1,12 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import setArrayPokemonCaptured from './arrayPokemonCaptureReducer'
-import {combineReducers,createStore} from 'redux'
-import {persistReducer} from 'redux-persist';
+import { combineReducers, createStore } from 'redux'
+import { persistReducer } from 'redux-persist';
 import setCurrentUserID from './userIDReducer';
 
-
 const rootPersistConfig = {
-    key:'root',
+    key: 'root',
     storage: AsyncStorage,
 }
 

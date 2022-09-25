@@ -14,7 +14,6 @@ import { Provider } from 'react-redux';
 import LoginView from './views/LoginView/LoginView';
 import SignUpView from './views/SignUpView/SignUpView';
 import ProfileView from './views/ProfileView/ProfileView';
-import TestView from './views/TestView/TestView';
 import PresentationView from './views/onBoarding/PresentationView';
 
 const App = () => {
@@ -25,16 +24,17 @@ const App = () => {
     return (
       <HomeStack.Navigator initialRouteName='Home'>
         <HomeStack.Screen name="Home" component={HomeView}
-         options={({navigation, route}) => ({ 
-          unmountInactiveRoutes: true,
-          title: '', 
-          headerStyle: {
-            backgroundColor: '#FFF',
-          },
-          headerLeft: () => (
-            <FontAwesome style={{ marginLeft: 15}}  name='user-circle' size={30} color={'black'} onPress={()=> navigation.navigate('Profile')} />
-          ) })} 
-         />
+          options={({ navigation, route }) => ({
+            unmountInactiveRoutes: true,
+            title: '',
+            headerStyle: {
+              backgroundColor: '#FFF',
+            },
+            headerLeft: () => (
+              <FontAwesome style={{ marginLeft: 15 }} name='user-circle' size={30} color={'black'} onPress={() => navigation.navigate('Profile')} />
+            )
+          })}
+        />
         <HomeStack.Screen name="Details" component={PokemonDetailsView} options={{ title: 'Characteristics of the pokemon' }} />
         <HomeStack.Screen name="Profile" component={ProfileView} options={{ title: 'My Profile' }} />
       </HomeStack.Navigator>
@@ -57,7 +57,7 @@ const App = () => {
   function TabNavigation() {
     return (
       <Tab.Navigator
-       initialRouteName='Presentation'
+        initialRouteName='Presentation'
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === 'HomeStack') {
@@ -84,9 +84,9 @@ const App = () => {
     return (
       <MainStack.Navigator initialRouteName={'Login'}>
         <MainStack.Screen name="Home" component={TabNavigation} options={{ headerShown: false }} />
-      <MainStack.Screen name="Login" component={LoginView} options={{ headerShown: false }} />
-      <MainStack.Screen name="SignUp" component={SignUpView} options={{  headerShown: false }} />
-    </MainStack.Navigator>
+        <MainStack.Screen name="Login" component={LoginView} options={{ headerShown: false }} />
+        <MainStack.Screen name="SignUp" component={SignUpView} options={{ headerShown: false }} />
+      </MainStack.Navigator>
     )
   }
 

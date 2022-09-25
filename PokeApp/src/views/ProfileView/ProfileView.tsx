@@ -1,14 +1,14 @@
 import { Card } from "@rneui/themed";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import * as commonStyle from '../../utils/commonStyle'
-import {connect, useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import User from "../../models/User";
 import auth from '@react-native-firebase/auth';
 
 const ProfileView = (props: any) => {
 
-    const userID: string = useSelector((state:any) => state.userIDStore.userID)
+    const userID: string = useSelector((state: any) => state.userIDStore.userID)
 
     const user: User = {
         name: "Sacha",
@@ -30,10 +30,10 @@ const ProfileView = (props: any) => {
     return (
         <View>
             <Card>
-            <Card.Title>{user.name} (ID: {userID})</Card.Title>
+                <Card.Title>{user.name} (ID: {userID})</Card.Title>
                 <Card.Divider />
                 <View>
-                <View style={{ alignItems: 'center' }}>
+                    <View style={{ alignItems: 'center' }}>
                         <Image style={style.image} source={require('../../assets/images/sacha.jpeg')} />
                     </View>
                     <View style={style.detailsContainer}>
@@ -43,8 +43,8 @@ const ProfileView = (props: any) => {
                         </View>
                     </View>
                 </View>
-                <Button title="Se Déconnecter" onPress={() => onSignOut() } color={'#FFa07a'} />
-            </Card>            
+                <Button title="Se Déconnecter" onPress={() => onSignOut()} color={'#FFa07a'} />
+            </Card>
         </View>
     )
 }
@@ -61,7 +61,5 @@ const style = StyleSheet.create({
         ...commonStyle.elevationButton,
     }
 })
-
-
 
 export default ProfileView;

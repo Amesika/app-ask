@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Button, Alert, Switch } from "react-native";
+import React from 'react'
+import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { Card } from '@rneui/base';
 import { LetterOnly, NumberOnly } from '../../utils/regex';
@@ -23,9 +23,6 @@ const options = {
 
 const PresentationView = (props: any) => {
 
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             name: '',
@@ -35,7 +32,7 @@ const PresentationView = (props: any) => {
         }
     });
 
-    const handleSubmitForm = data => {
+    const handleSubmitForm = (data: any) => {
 
         const valuesForm = data;
         console.log('Values:', valuesForm)
@@ -66,12 +63,12 @@ const PresentationView = (props: any) => {
                                     onChangeText={onChange}
                                     value={value}
                                 />
-                                 {errors.name && <Text style={style.errorText}>{options.fields.name.error}</Text>}
+                                {errors.name && <Text style={style.errorText}>{options.fields.name.error}</Text>}
                             </View>
                         )}
                         name="name"
                     />
-                   
+
 
                     <Controller
                         control={control}
@@ -97,7 +94,7 @@ const PresentationView = (props: any) => {
                         rules={{
                             required: true,
                             pattern: NumberOnly,
-                            min:10
+                            min: 10
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <View>
@@ -108,7 +105,7 @@ const PresentationView = (props: any) => {
                                     onChangeText={onChange}
                                     value={value}
                                 />
-                                {errors.age && <Text style={style.errorText}>{errors.age.message||options.fields.age.error}</Text>}
+                                {errors.age && <Text style={style.errorText}>{errors.age.message || options.fields.age.error}</Text>}
                             </View>
                         )}
                         name="age"
@@ -134,10 +131,10 @@ const style = StyleSheet.create({
     buttonContainer: {
         marginTop: 20
     },
-    labelText:{
-        fontSize:16
+    labelText: {
+        fontSize: 16
     },
-    errorText:{
+    errorText: {
         marginTop: -10,
         marginBottom: 10,
         color: 'red'
