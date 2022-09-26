@@ -15,6 +15,7 @@ import LoginView from './views/LoginView/LoginView';
 import SignUpView from './views/SignUpView/SignUpView';
 import ProfileView from './views/ProfileView/ProfileView';
 import PresentationView from './views/onBoarding/PresentationView';
+import { View } from 'react-native';
 
 const App = () => {
 
@@ -45,8 +46,11 @@ const App = () => {
 
   function MyPokemonStackScreen() {
     return (
-      <MyPokemonStack.Navigator>
-        <MyPokemonStack.Screen name="MyPokemon" component={MyPokemonView} options={{ title: 'My Pokemon Team' }} />
+      <MyPokemonStack.Navigator initialRouteName='MyPokemon'>
+        <MyPokemonStack.Screen name="MyPokemon" component={MyPokemonView} options={{
+          headerLeft: () => (<View />),
+          title: 'My Pokemon Team'
+        }} />
         <MyPokemonStack.Screen name="Details" component={PokemonDetailsView} options={{ title: 'Characteristics of the pokemon' }} />
       </MyPokemonStack.Navigator>
     )
@@ -57,7 +61,7 @@ const App = () => {
   function TabNavigation() {
     return (
       <Tab.Navigator
-        initialRouteName='Presentation'
+        initialRouteName='HomeStack'
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === 'HomeStack') {

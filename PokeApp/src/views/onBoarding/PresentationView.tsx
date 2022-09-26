@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { Card } from '@rneui/base';
 import { LetterOnly, NumberOnly } from '../../utils/regex';
+import User from '../../models/User';
+import { useSelector } from 'react-redux';
+import { addInformationUserFirebase } from '../../services/updateService';
 
 const options = {
     fields: {
@@ -23,23 +26,40 @@ const options = {
 
 const PresentationView = (props: any) => {
 
+    const userID: string = useSelector((state: any) => state.userIDStore.userID)
+
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             name: '',
             age: '',
-            favoritePokemon: '',
-            isValideProfile: true
+            favoritePokemon: ''
         }
     });
 
     const handleSubmitForm = (data: any) => {
-
         const valuesForm = data;
         console.log('Values:', valuesForm)
         if (valuesForm) {
             console.log('Form validated')
+            saveDataInFirebase(valuesForm)
         }
     };
+
+    const saveDataInFirebase = (data: any) => {
+        const user: User = {
+            name: data.name,
+            age: data.age,
+            image: '',
+            favoritePokemon: data.favoritePokemon,
+            id: userID
+        }
+
+        addInformationUserFirebase(userID, user)
+            .then(() => {
+                console.log('the info has been added for the user: ', userID)
+                props.navigation.navigate('HomeStack')
+            }).catch((error) => console.log(error))
+    }
 
     return (
         <View>
