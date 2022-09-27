@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import * as commonStyle from '../../utils/commonStyle'
 import { connect, useSelector } from 'react-redux'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Icons from 'react-native-vector-icons/FontAwesome5';
 import { deletePokemonToMyPokedexInFirebase } from "../../services/updateService";
 
 const PokemonDetailsView = (props: any) => {
@@ -31,7 +33,7 @@ const PokemonDetailsView = (props: any) => {
 
     const fetchPokemonDetails = (indexPokemon: number) => {
         const url = `https://pokeapi.co/api/v2/pokemon/${indexPokemon}`;
-        console.log(indexPokemon)
+
         fetch(url)
             .then(response => response.json())
             .then(json => {
@@ -57,18 +59,24 @@ const PokemonDetailsView = (props: any) => {
                     </View>
                     <View style={style.detailsContainer}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                            <Text>Height: {height} </Text>
-                            <Text>Weight: {weight} </Text>
+                            <Text><Icons name="text-height"/> Height: {height} </Text>
+                            <Text><Icons name="weight-hanging"/> Weight: {weight} </Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                             <Text>
                                 {arrayTypes.length !== 0 &&
-                                    arrayTypes.map((item, index) => <Text key={index}> {item} &</Text>)}
+                                    arrayTypes.map((item, index) =>
+                                    <View>
+                                        <Text key={index}> <FontAwesome name="superpowers" /> {item} {index===arrayTypes.length-1 || '&'}</Text>
+                                    </View> )}
                             </Text>
                         </View>
                     </View>
                 </View>
-                {isReleasePossible && <Button title="Release the Pokemon" onPress={() => releasePokemon(id)} />}
+                {isReleasePossible &&
+                <View style={style.button}>
+                    <Button  title="Release the Pokemon" onPress={() => releasePokemon(id)} />
+                </View> }
             </Card>
         </View>
     )
@@ -80,10 +88,12 @@ const style = StyleSheet.create({
         height: 350
     },
     detailsContainer: {
-        marginRight: 10,
-        marginLeft: 10,
-        borderRadius: 10,
+        paddingVertical: 10,
+        borderRadius: 5,
         ...commonStyle.elevationButton,
+    },
+    button:{
+        marginTop:15,
     }
 })
 

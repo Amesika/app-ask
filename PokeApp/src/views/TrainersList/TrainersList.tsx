@@ -50,11 +50,12 @@ const TrainersList = (props: any) => {
     return (
         <View>
             {isLoading? <ActivityIndicator /> :
-            <FlatList
+            <View ><FlatList
                 data={trainersList}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => <TrainerItem userDetail={item} onViewTrainer={onViewTrainers} />}
-            />}
+            />
+            </View>}            
         </View>
     )
 }
@@ -89,7 +90,8 @@ const TrainerItem = ({ userDetail, onViewTrainer }: IProps) => {
 
 const style = StyleSheet.create({
     mainContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        padding: 5,    
     },
     image: {
         width: 60,
@@ -126,7 +128,7 @@ const style = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30
-    }
+    },
 })
 
 

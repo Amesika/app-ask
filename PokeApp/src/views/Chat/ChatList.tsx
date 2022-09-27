@@ -109,6 +109,7 @@ const ChatItem = ({ chatDetail, onViewChat, currentUserID }: IProps) => {
 
 const style = StyleSheet.create({
     mainContainer: {
+        padding: 5,  
         flexDirection: 'row'
     },
     image: {

@@ -80,7 +80,8 @@ const PokemonItem = (props: any) => {
 
 const style = StyleSheet.create({
     mainContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        padding: 5
     },
     image: {
         width: 60,

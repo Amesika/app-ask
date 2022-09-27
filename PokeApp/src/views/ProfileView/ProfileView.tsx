@@ -10,7 +10,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { getFormattedDate } from "../../utils/utils";
 import { createStorageReferenceToFile, updateInformationUserFirebase } from "../../services/updateService";
 import storage from '@react-native-firebase/storage';
-
+import Icons from 'react-native-vector-icons/FontAwesome';
+import Icons2 from 'react-native-vector-icons/Fontisto';
 const ProfileView = (props: any) => {
 
     const [imageURL, setImageURL] = useState<any>(require('../../assets/images/mystery_pokemon.png'))
@@ -87,14 +88,15 @@ const ProfileView = (props: any) => {
                     <Card.Title>{user?.name} (ID: {userID})</Card.Title>
                     <Card.Divider />
                     <View>
-                        <View style={{ alignItems: 'center' }}>
-                            <Image style={style.image} source={imageURL} />
-                        </View>
+
                         <View style={style.detailsContainer}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                <Text>Age: {user?.age} </Text>
-                                <Text>Pokémon Favorie: {user?.favoritePokemon} </Text>
+                                <Text><Icons name="calendar"/> Age: {user?.age} </Text>
+                                <Text><Icons2 name="favorite"/> Pokémon Favorie: {user?.favoritePokemon} </Text>
                             </View>
+                        </View>
+                        <View style={style.imageContainer}>
+                            <Image style={style.image} source={imageURL} />
                         </View>
                     </View>
                     <Button title="Changer Image" onPress={() => onSelectImage()} color={'#a0FF7a'} />
@@ -107,12 +109,18 @@ const ProfileView = (props: any) => {
 
 const style = StyleSheet.create({
     image: {
-        width: 300,
-        height: 300
+        width: 200,
+        height: 200,
+        borderRadius:100,
+
+    },
+    imageContainer:{
+        alignItems: 'center',
+        marginBottom: 10
     },
     detailsContainer: {
-        marginRight: 10,
-        marginLeft: 10,
+        paddingVertical:10,
+        marginBottom: 10,
         borderRadius: 10,
         ...commonStyle.elevationButton,
     }
