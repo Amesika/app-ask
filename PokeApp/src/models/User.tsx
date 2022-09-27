@@ -1,4 +1,4 @@
-export default interface Pokemon {
+export default interface User {
     name: string,
     age: number,
     image: string,

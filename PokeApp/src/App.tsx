@@ -16,6 +16,8 @@ import SignUpView from './views/SignUpView/SignUpView';
 import ProfileView from './views/ProfileView/ProfileView';
 import PresentationView from './views/onBoarding/PresentationView';
 import { View } from 'react-native';
+import TrainersList from './views/TrainersList/TrainersList';
+import TrainersDetailsView from './views/TrainersList/TrainsersDetailsView';
 
 const App = () => {
 
@@ -48,11 +50,25 @@ const App = () => {
     return (
       <MyPokemonStack.Navigator initialRouteName='MyPokemon'>
         <MyPokemonStack.Screen name="MyPokemon" component={MyPokemonView} options={{
-          headerLeft: () => (<View />),
+          headerLeft: () => null,
           title: 'My Pokemon Team'
         }} />
         <MyPokemonStack.Screen name="Details" component={PokemonDetailsView} options={{ title: 'Characteristics of the pokemon' }} />
       </MyPokemonStack.Navigator>
+    )
+  }
+
+  const TrainersListStack = createStackNavigator();
+
+  function TrainersListStackScreen() {
+    return (
+      <TrainersListStack.Navigator initialRouteName='TrainersList'>
+        <TrainersListStack.Screen name="TrainersList" component={TrainersList} options={{
+          headerLeft: () => null,
+          title: 'Autres Dresseurs'
+        }} />
+        <TrainersListStack.Screen name="TrainersDetails" component={TrainersDetailsView} options={{ title: 'Details' }} />
+      </TrainersListStack.Navigator>
     )
   }
 
@@ -61,13 +77,15 @@ const App = () => {
   function TabNavigation() {
     return (
       <Tab.Navigator
-        initialRouteName='HomeStack'
+        initialRouteName='Autres Dresseurs'
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === 'HomeStack') {
               return <FontAwesome name="home" size={size} color={color} />;
             } else if (route.name === 'MyPokemonStack') {
               return <MaterialCommunityIcons name="pokeball" size={size} color={color} />;
+            } else if (route.name === 'Autres Dresseurs') {
+              return <FontAwesome name="users" size={size} color={color} />;
             };
           },
           headerShown: false,
@@ -77,7 +95,7 @@ const App = () => {
       >
         <Tab.Screen name="HomeStack" component={HomeStackScreen} />
         <Tab.Screen name="MyPokemonStack" component={MyPokemonStackScreen} />
-        <Tab.Screen name="Presentation" component={PresentationView} />
+        <Tab.Screen name="Autres Dresseurs" component={TrainersListStackScreen} />
       </Tab.Navigator>
     )
   }

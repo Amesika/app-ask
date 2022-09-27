@@ -35,7 +35,7 @@ const ProfileView = (props: any) => {
                 //@ts-ignore
                 setUser(documentSnapshot.data())
                 //@ts-ignore
-                setImageURL({uri:documentSnapshot.data().image})
+                setImageURL({ uri: documentSnapshot.data()?.image })
             });
 
         return () => subscriber();
@@ -84,7 +84,7 @@ const ProfileView = (props: any) => {
             {user?.id === '0' ?
                 <ActivityIndicator size='large' color='#0000cc' /> :
                 <Card>
-                    <Card.Title>{user.name} (ID: {userID})</Card.Title>
+                    <Card.Title>{user?.name} (ID: {userID})</Card.Title>
                     <Card.Divider />
                     <View>
                         <View style={{ alignItems: 'center' }}>
@@ -92,8 +92,8 @@ const ProfileView = (props: any) => {
                         </View>
                         <View style={style.detailsContainer}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                <Text>Age: {user.age} </Text>
-                                <Text>Pokémon Favorie: {user.favoritePokemon} </Text>
+                                <Text>Age: {user?.age} </Text>
+                                <Text>Pokémon Favorie: {user?.favoritePokemon} </Text>
                             </View>
                         </View>
                     </View>
