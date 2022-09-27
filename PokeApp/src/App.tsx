@@ -17,7 +17,9 @@ import ProfileView from './views/ProfileView/ProfileView';
 import PresentationView from './views/onBoarding/PresentationView';
 import { View } from 'react-native';
 import TrainersList from './views/TrainersList/TrainersList';
-import TrainersDetailsView from './views/TrainersList/TrainsersDetailsView';
+import TrainersDetailsView from './views/TrainersList/TrainersDetailsView';
+import ChatList from './views/Chat/ChatList';
+import ChatDetails from './views/Chat/ChatDetails';
 
 const App = () => {
 
@@ -72,12 +74,26 @@ const App = () => {
     )
   }
 
+  const ChatStack = createStackNavigator();
+
+  function ChatStackScreen() {
+    return (
+      <ChatStack.Navigator initialRouteName='ChatList'>
+        <ChatStack.Screen name="ChatList" component={ChatList} options={{
+          headerLeft: () => null,
+          title: 'Chats'
+        }} />
+        <ChatStack.Screen name="ChatDetails" component={ChatDetails} options={{ title: 'Liste des messages' }} />
+      </ChatStack.Navigator>
+    )
+  }
+
   const Tab = createBottomTabNavigator();
 
   function TabNavigation() {
     return (
       <Tab.Navigator
-        initialRouteName='Autres Dresseurs'
+        initialRouteName='Chats'
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === 'HomeStack') {
@@ -86,6 +102,8 @@ const App = () => {
               return <MaterialCommunityIcons name="pokeball" size={size} color={color} />;
             } else if (route.name === 'Autres Dresseurs') {
               return <FontAwesome name="users" size={size} color={color} />;
+            }else if (route.name === 'Chats') {
+              return <MaterialCommunityIcons name="chat" size={size} color={color} />;
             };
           },
           headerShown: false,
@@ -96,6 +114,7 @@ const App = () => {
         <Tab.Screen name="HomeStack" component={HomeStackScreen} />
         <Tab.Screen name="MyPokemonStack" component={MyPokemonStackScreen} />
         <Tab.Screen name="Autres Dresseurs" component={TrainersListStackScreen} />
+        <Tab.Screen name="Chats" component={ChatStackScreen} />
       </Tab.Navigator>
     )
   }
