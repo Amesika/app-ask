@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Button, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { listPokeOriginal } from "../../data/PokemonList";
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";;
 import { Pokemon } from "../../models/Pokemon";
 import * as commonStyle from '../../utils/commonStyle'
 import { getRandomInt, shuffle } from "../../utils/utils";

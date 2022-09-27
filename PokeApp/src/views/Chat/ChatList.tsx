@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import firestore from '@react-native-firebase/firestore';
-import User from "../../models/User";
-import { shuffle } from "../../utils/utils";
 import { useSelector } from "react-redux";
-import Chat from "../../models/chat";
+import Chat from "../../models/Chat";
 
 const ChatList = (props: any) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [chatList, setChatList] = useState<Chat[]>([]);
-
     const currentUserID: string = useSelector((state: any) => state.userIDStore.userID)
 
     useEffect(() => {
@@ -79,7 +76,7 @@ const ChatList = (props: any) => {
 interface IProps {
     chatDetail: Chat,
     onViewChat: any,
-    currentUserID:string,
+    currentUserID: string,
 }
 
 const ChatItem = ({ chatDetail, onViewChat, currentUserID }: IProps) => {
@@ -87,12 +84,12 @@ const ChatItem = ({ chatDetail, onViewChat, currentUserID }: IProps) => {
     let imageOtherUser;
     let nameOtherUser;
 
-    if(currentUserID === chatDetail.id_1){
+    if (currentUserID === chatDetail.id_1) {
         imageOtherUser = chatDetail.image_2,
-        nameOtherUser = chatDetail.name_2
-    }else{
+            nameOtherUser = chatDetail.name_2
+    } else {
         imageOtherUser = chatDetail.image_1,
-        nameOtherUser = chatDetail.name_1
+            nameOtherUser = chatDetail.name_1
     }
 
     return (
@@ -102,7 +99,7 @@ const ChatItem = ({ chatDetail, onViewChat, currentUserID }: IProps) => {
                 <Image style={style.imagePokemon} source={{ uri: imageOtherUser }} />
                 <View style={style.contentContainer}>
                     <View style={style.headerContainer}>
-                        <Text style={style.titleText}>{ nameOtherUser}</Text>
+                        <Text style={style.titleText}>{nameOtherUser}</Text>
                     </View>
                 </View>
             </TouchableOpacity>

@@ -93,7 +93,7 @@ const App = () => {
   function TabNavigation() {
     return (
       <Tab.Navigator
-        initialRouteName='Chats'
+        initialRouteName='HomeStack'
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === 'HomeStack') {
@@ -102,7 +102,7 @@ const App = () => {
               return <MaterialCommunityIcons name="pokeball" size={size} color={color} />;
             } else if (route.name === 'Autres Dresseurs') {
               return <FontAwesome name="users" size={size} color={color} />;
-            }else if (route.name === 'Chats') {
+            } else if (route.name === 'Chats') {
               return <MaterialCommunityIcons name="chat" size={size} color={color} />;
             };
           },

@@ -1,5 +1,5 @@
 import { Button, Card } from "@rneui/base";
-import React, { useState } from "react";
+import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import User from "../../models/User";
 import * as commonStyle from '../../utils/commonStyle'
@@ -20,35 +20,35 @@ const TrainersDetailsView = (props: any) => {
             .then(documentSnapshot => {
                 console.log('User data: ', documentSnapshot.data());
                 //@ts-ignore
-                const currentUser:User = documentSnapshot.data()
+                const currentUser: User = documentSnapshot.data()
 
                 const chat: Chat = createChatInformation(currentUser, otherUser)
 
                 console.log('Chat information: ', chat)
 
                 createChatInFirebase(chat).then(
-                    () =>{
+                    () => {
                         console.log('[CHAT] Creation of the chat in fireestore between the two users.');
                     }
-                ).catch((error)=>console.error(error))
+                ).catch((error) => console.error(error))
 
                 const chatUserInfo = {
                     name: chat.chat_id,
                     dateCreation: getFormattedDate()
                 }
-                createChatUserProfileInFirebase(currentUser.id,chat.chat_id,chatUserInfo)
-                .then(
-                    () =>{
-                        console.log('[CHAT] Adding the chat in the list of chats of current user.');
-                    }
-                ).catch((error)=>console.error(error))
+                createChatUserProfileInFirebase(currentUser.id, chat.chat_id, chatUserInfo)
+                    .then(
+                        () => {
+                            console.log('[CHAT] Adding the chat in the list of chats of current user.');
+                        }
+                    ).catch((error) => console.error(error))
 
-                createChatUserProfileInFirebase(otherUser.id,chat.chat_id,chatUserInfo)
-                .then(
-                    () =>{
-                        console.log('[CHAT] Adding the chat in the list of chats of the other user.');
-                    }
-                ).catch((error)=>console.error(error))
+                createChatUserProfileInFirebase(otherUser.id, chat.chat_id, chatUserInfo)
+                    .then(
+                        () => {
+                            console.log('[CHAT] Adding the chat in the list of chats of the other user.');
+                        }
+                    ).catch((error) => console.error(error))
             });
     }
 
