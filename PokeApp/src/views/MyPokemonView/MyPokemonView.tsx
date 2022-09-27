@@ -1,13 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
+import firestore from '@react-native-firebase/firestore';
+import { Pokemon } from "../../models/Pokemon";
 
 const MyPokemonView = (props: any) => {
 
-    const onViewPokemonDetails = (idPokemon: Number, namePokemon: string, srcPokemon: string) => {
+    const currentUserID: string = useSelector((state: any) => state.userIDStore.userID)
+
+    useEffect(() => {
+        updateArrarPokemonCaptured();
+    }, [])
+
+    const updateArrarPokemonCaptured = () => {
+        firestore().collection('users').doc(currentUserID).collection('pokemons')
+            .get()
+            .then(querySnapShot => {
+
+                let listPokemon: Pokemon[] = [];
+                querySnapShot.forEach(
+                    doc => {
+                        //@ts-ignore
+                        listPokemon.push({
+                            id: doc.id,
+                            ...doc.data()
+                        })
+                    }
+                )
+               
+                const action = { type: 'GET_LIST_POKEMON', value: listPokemon }
+                props.dispatch(action);
+                console.log('Reload pokemon captured.')
+            })
+    }
+
+    const onViewPokemonDetails = (id: string, idPokemon: number, namePokemon: string, srcPokemon: string) => {
         props.navigation.navigate('Details', {
-            id: idPokemon,
+            id: id,
+            idPokemon: idPokemon,
             name: namePokemon,
             src: srcPokemon,
             isReleasePossible: true
@@ -30,7 +61,7 @@ const PokemonItem = (props: any) => {
     return (
         <View>
             <TouchableOpacity style={style.mainContainer}
-                onPress={() => onClickPokemon(pokemon.id, pokemon.name, pokemon.src)}>
+                onPress={() => onClickPokemon(pokemon.id, pokemon.idPokemon, pokemon.name, pokemon.src)}>
                 <Image style={style.imagePokemon} source={{ uri: pokemon.src }} />
                 <View style={style.contentContainer}>
                     <View style={style.headerContainer}>

@@ -41,7 +41,7 @@ const TrainersList = (props: any) => {
                     }
                 )
                 listUsers = listUsers.filter((user: User) => user.id !== currentUserID)
-                setTrainersList(shuffle(listUsers));
+                setTrainersList(listUsers);
                 setIsLoading(false)
                 console.log('Users have been received.')
             })

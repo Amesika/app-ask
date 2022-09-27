@@ -34,7 +34,7 @@ const SignUpView = (props: any) => {
                     console.log('That email address is invalid!');
                 }
 
-                console.error(error);
+                console.log(error);
                 alert(error);
             });
     }

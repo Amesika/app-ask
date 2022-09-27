@@ -2,24 +2,41 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";;
 import { Pokemon } from "../../models/Pokemon";
 import * as commonStyle from '../../utils/commonStyle'
-import { getRandomInt, shuffle } from "../../utils/utils";
-import { connect } from 'react-redux';
+import { getFormattedDate, getRandomInt, shuffle } from "../../utils/utils";
+import { connect, useSelector } from 'react-redux';
+import { addPokemonToMyPokedexInFirebase } from "../../services/updateService";
 
 const HomeView = (props: any) => {
 
     const [counterPokedex, setCounterPokedex] = useState(0);
-    const [listPoke, setListPoke] = useState<Pokemon[]>(undefined);
+    const [listPoke, setListPoke] = useState<Pokemon[]>([]);
     const [isDataReceived, setIsDataReceived] = useState(false);
+
+    const currentUserID: string = useSelector((state: any) => state.userIDStore.userID)
 
     const onCapturePokemon = () => {
         const currentPokemon = listPoke[counterPokedex];
-        const action = { type: 'ADD_TO_LIST_POKEMON', value: currentPokemon }
+        
+        let myPokemonInfo: Pokemon= {
+            ...currentPokemon,
+            id: currentPokemon.id+'_'+getFormattedDate()
+        }
+        
+        const action = { type: 'ADD_TO_LIST_POKEMON', value: myPokemonInfo }
         props.dispatch(action)
+
+        addPokemonToMyPokedexInFirebase(currentUserID, myPokemonInfo.id, myPokemonInfo)
+        .then(() => {
+            console.log('[ADD_TO_LIST_POKEMON] Success: add new pokemon', myPokemonInfo.id)
+        })
+        .catch((error: any) => console.log(error))
+
     }
 
-    const onViewPokemonDetails = (idPokemon: Number, namePokemon: string, srcPokemon: string) => {
+    const onViewPokemonDetails = (idPokemon: string, indexPokemon: number,namePokemon: string, srcPokemon: string) => {
         props.navigation.navigate('Details', {
             id: idPokemon,
+            idPokemon:indexPokemon,
             name: namePokemon,
             src: srcPokemon,
             isReleasePossible: false
@@ -59,9 +76,10 @@ const HomeView = (props: any) => {
             .then(response => response.json())
             .then(json => {
                 const newArray = json.results
-                    .map((pokemon: any, index: number) => {
+                    .map((pokemon: Pokemon, index: number) => {
                         let indexPokedex = index + 1;
-                        pokemon.id = indexPokedex;
+                        pokemon.id = indexPokedex+getFormattedDate();
+                        pokemon.idPokemon = indexPokedex;
                         pokemon.level = getRandomInt(40, 80);
                         pokemon.isMale = true;
                         pokemon.src = 'https://cdn.traction.one/pokedex/pokemon/' + indexPokedex + '.png';
@@ -84,7 +102,7 @@ const HomeView = (props: any) => {
             </View>
             <View style={style.pokemonContainer}>
                 {isDataReceived ?
-                    <PokemonInfo id={listPoke[counterPokedex].id} name={listPoke[counterPokedex].name}
+                    <PokemonInfo id={listPoke[counterPokedex].id} idPokemon={listPoke[counterPokedex].idPokemon} name={listPoke[counterPokedex].name}
                         level={listPoke[counterPokedex].level} isMale={listPoke[counterPokedex].isMale}
                         src={listPoke[counterPokedex].src}
                         onclickPokemon={onViewPokemonDetails}
@@ -118,12 +136,12 @@ const HomeView = (props: any) => {
     )
 }
 
-const PokemonInfo = ({ id, name, level, isMale, src, onclickPokemon }: Pokemon) => {
+const PokemonInfo = ({ id, idPokemon, name, level, isMale, src, onclickPokemon }: Pokemon) => {
     return (
         <>
             <Text style={style.textAppeared}>A new Pokemon appeared !</Text>
             <TouchableOpacity
-                onPress={() => onclickPokemon(id, name, src)}
+                onPress={() => onclickPokemon(id,idPokemon, name, src)}
             >
                 <Image style={style.imagePokemon} source={{ uri: src }} />
             </TouchableOpacity>

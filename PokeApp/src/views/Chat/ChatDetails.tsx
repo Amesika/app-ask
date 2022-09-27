@@ -78,7 +78,7 @@ const ChatDetails = (props: any) => {
                     'in Firebase for the chat ID:', chatDetail.chat_id)
                 setTextInput('');
             })
-            .catch((error: any) => console.error(error))
+            .catch((error: any) => console.log(error))
     }
 
     return (

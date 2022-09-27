@@ -33,11 +33,12 @@ export function getFormattedDate(image = false) {
     const hour = fixDateFormat(date.getHours());
     const minute = fixDateFormat(date.getMinutes());
     const seconde = fixDateFormat(date.getSeconds());
+    const milliSeconde = fixDateFormat(date.getMilliseconds());
 
     if (image) {
-        return String(date.getFullYear()) + '_' + month + '_' + day + '_' + hour + '_' + minute + '_' + seconde + '.png'
+        return String(date.getFullYear()) + '_' + month + '_' + day + 'HH:' + hour + 'MM:' + minute + 'SS:' + seconde + 'ss:' + milliSeconde + '.png'
     }
-    return String(date.getFullYear()) + '_' + month + '_' + day + '_' + hour + '_' + minute + '_' + seconde;
+    return String(date.getFullYear()) + '_' + month + '_' + day + 'HH:' + hour + 'MM:' + minute + 'SS:' + seconde + 'ss:' + milliSeconde;
 }
 
 /**
@@ -48,7 +49,7 @@ export function getFormattedDate(image = false) {
 export function fixDateFormat(date) {
     if (date < 10) {
         return '0' + date;
-    }else{
+    } else {
         return date.toString()
     }
 }

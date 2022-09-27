@@ -2,26 +2,36 @@ import { Card } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import * as commonStyle from '../../utils/commonStyle'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
+import { deletePokemonToMyPokedexInFirebase } from "../../services/updateService";
 
 const PokemonDetailsView = (props: any) => {
 
-    const { id, name, src, isReleasePossible } = props.route.params
+    const { id, idPokemon, name, src, isReleasePossible } = props.route.params
     const [weight, setWeight] = useState(undefined);
     const [height, setHeight] = useState(undefined);
     const [arrayTypes, setArrayTypes] = useState([]);
 
-    useEffect(() => {
-        fetchPokemonDetails(id)
-    }, [id])
+    const currentUserID: string = useSelector((state: any) => state.userIDStore.userID)
 
-    const releasePokemon = (idPokemon: number) => {
-        const action = { type: 'REMOVE_POKEMON_IN_LIST', value: idPokemon }
-        props.dispatch(action);
+    useEffect(() => {
+        fetchPokemonDetails(idPokemon)
+    }, [idPokemon])
+
+    const releasePokemon = (idPokemon: string) => {
+          deletePokemonToMyPokedexInFirebase(currentUserID, idPokemon)
+            .then(() => {
+                console.log('[REMOVE_POKEMON_IN_LIST] Success: Pokemon ID:' + idPokemon + 'is Release')
+                const action = { type: 'REMOVE_POKEMON_IN_LIST', value: idPokemon }
+                props.dispatch(action);
+                props.navigation.navigate('MyPokemon')
+            })
+            .catch((error: any) => console.log(error))
     }
 
-    const fetchPokemonDetails = (idPokemon: number) => {
-        const url = `https://pokeapi.co/api/v2/pokemon/${idPokemon}`;
+    const fetchPokemonDetails = (indexPokemon: number) => {
+        const url = `https://pokeapi.co/api/v2/pokemon/${indexPokemon}`;
+        console.log(indexPokemon)
         fetch(url)
             .then(response => response.json())
             .then(json => {
@@ -33,7 +43,7 @@ const PokemonDetailsView = (props: any) => {
                 })
                 setArrayTypes(arrayTypes);
             })
-            .catch(error => console.log('Error: ', error))
+            .catch(error => console.log('Error fetchPokemonDetails: ', error))
     }
 
     return (

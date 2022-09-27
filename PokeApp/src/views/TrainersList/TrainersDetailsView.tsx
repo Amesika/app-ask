@@ -5,7 +5,7 @@ import User from "../../models/User";
 import * as commonStyle from '../../utils/commonStyle'
 import firestore from '@react-native-firebase/firestore';
 import { createChatInFirebase, createChatUserProfileInFirebase } from "../../services/chatService";
-import Chat from "../../models/chat";
+import Chat from "../../models/Chat";
 import { getFormattedDate } from "../../utils/utils";
 
 const TrainersDetailsView = (props: any) => {
@@ -30,7 +30,7 @@ const TrainersDetailsView = (props: any) => {
                     () => {
                         console.log('[CHAT] Creation of the chat in fireestore between the two users.');
                     }
-                ).catch((error) => console.error(error))
+                ).catch((error) => console.log(error))
 
                 const chatUserInfo = {
                     name: chat.chat_id,
@@ -41,14 +41,14 @@ const TrainersDetailsView = (props: any) => {
                         () => {
                             console.log('[CHAT] Adding the chat in the list of chats of current user.');
                         }
-                    ).catch((error) => console.error(error))
+                    ).catch((error) => console.log(error))
 
                 createChatUserProfileInFirebase(otherUser.id, chat.chat_id, chatUserInfo)
                     .then(
                         () => {
                             console.log('[CHAT] Adding the chat in the list of chats of the other user.');
                         }
-                    ).catch((error) => console.error(error))
+                    ).catch((error) => console.log(error))
             });
     }
 

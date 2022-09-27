@@ -13,6 +13,13 @@ function setArrayPokemonCaptured(state = initialState, action: { type: string, v
             };
             console.log('[STORE] Add To pokemon capured: ', action.value)
             return nextState || state;
+        case 'GET_LIST_POKEMON':
+                nextState = {
+                    ...state,
+                    arrayPokemonCaptured: [...action.value],
+                };
+                console.log('[STORE] Get list pokemon capured: ', action.value)
+                return nextState || state;
         case 'REMOVE_POKEMON_IN_LIST':
             nextState = {
                 ...state,
