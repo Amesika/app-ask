@@ -3,8 +3,8 @@ import { Animated, Dimensions } from "react-native";
 
 export default class FadeInView extends React.Component {
 
-    constructor(prop) {
-        super(prop)
+    constructor(props) {
+        super(props)
         let {width} = Dimensions.get("window")
         this.state = {
             pan: new Animated.ValueXY({ x: width, y: 0 })

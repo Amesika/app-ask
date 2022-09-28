@@ -3,21 +3,21 @@ import { StyleSheet, Text, View } from "react-native";
 import moment from "moment/moment";
 import 'moment/locale/fr';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
-import FadeInView from "../animation/FadeInView";
+import FadeInView from "../../animation/FadeInView";
 
 moment.locale('fr')
 
-export default class Row extends React.Component {
+const Row = (props: any) => {
 
-    day() {
-        let day = moment(this.props.day.dt * 1000).format('ddd');
+    const day = () => {
+        let day = moment(props.day.dt * 1000).format('ddd');
         return (
             <Text style={[style.white, style.bold]}>{day.toUpperCase()}</Text>
         )
     }
 
-    icon(size = 50) {
-        const type = this.props.day.weather[0].main.toLowerCase();
+    const icon = (size = 50) => {
+        const type = props.day.weather[0].main.toLowerCase();
         let icon = "";
         switch (type) {
             case 'clouds':
@@ -35,41 +35,35 @@ export default class Row extends React.Component {
         )
     }
 
-    date() {
-        let day = moment(this.props.day.dt * 1000).format('DD/MM : HH-mm');
+    const date = () => {
+        let day = moment(props.day.dt * 1000).format('DD/MM : HH-mm');
         return (
             <Text>{day}</Text>
         )
     }
 
 
-    render() {
-        if (this.props.index === 0) {
-            return (
-                <FadeInView delay={this.props.index * 50}>
+    return (
+        props.index === 0 ?
+            <FadeInView delay={props.index * 50}>
                 <View style={[style.flex, style.view, style.firstView]}>
                     <View >
-                        <Text style={{color:'#FFF'}}>{this.day()}  {this.date()}</Text>
-                        <Text>{this.icon(90)}</Text>
+                        <Text style={{ color: '#FFF' }}>{day()}  {date()}</Text>
+                        <Text>{icon(90)}</Text>
                     </View>
-                    <Text style={[style.temp, {fontSize:35}]}>{this.props.day.main.temp} °C</Text>
+                    <Text style={[style.temp, { fontSize: 35 }]}>{props.day.main.temp} °C</Text>
                 </View>
-                </FadeInView>
-            )
-        } else {
-            return (
-                <FadeInView delay={this.props.index * 50}>
+            </FadeInView> :
+            <FadeInView delay={props.index * 50}>
                 <View style={[style.flex, style.view]}>
                     <View style={style.flex}>
-                        <Text>{this.icon()}</Text>
-                        <Text style={{ marginLeft: 10 }}>{this.day()}  {this.date()}</Text>
+                        <Text>{icon()}</Text>
+                        <Text style={{ marginLeft: 10 }}>{day()}  {date()}</Text>
                     </View>
-                    <Text style={style.temp}>{this.props.day.main.temp} °C</Text>
+                    <Text style={style.temp}>{props.day.main.temp} °C</Text>
                 </View>
-                </FadeInView>
-            )
-        }
-    }
+            </FadeInView>
+    )
 }
 
 const style = StyleSheet.create({
@@ -102,3 +96,5 @@ const style = StyleSheet.create({
         fontSize: 22
     }
 })
+
+export default Row;
