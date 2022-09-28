@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import style from "./assets/Style";
 import Search from './components/Search';
 import About from './components/About';
 import List from './components/List';
@@ -10,14 +11,13 @@ import List from './components/List';
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
-      return (
-        <Stack.Navigator initialRouteName='Search'>            
-          <Stack.Screen name="Search" component={Search} options={{title:'Rechercher une ville'}} />
-          <Stack.Screen name="Meteo" component={List}  />
-        </Stack.Navigator>
-      );
-      }
-
+  return (
+    <Stack.Navigator initialRouteName='Search'>
+      <Stack.Screen name="Search" component={Search} options={{ title: 'Rechercher une ville' }} />
+      <Stack.Screen name="Meteo" component={List} options={({ route }) => ({ title: `${route.params?.title}`, headerStyle: style.header, headerTitleStyle: style.headerTitle })} />
+    </Stack.Navigator>
+  );
+}
 const Tab = createBottomTabNavigator();
 
 function TabStack() {
@@ -29,7 +29,8 @@ function TabStack() {
           backgroundColor: '#a2273c',
           borderTopWidth: 1,
           borderColor: '3f101c'
-        }
+        },
+        tabBarActiveTintColor: '#FFFFFF',
       })}>
       <Tab.Screen name="StackNavigator" component={StackNavigator}
 
@@ -39,7 +40,14 @@ function TabStack() {
             <FontAwesome name="home" color={color} size={size} />
           ),
         }} />
-      <Tab.Screen name="About" component={About} />
+      <Tab.Screen name="About" component={About}
+
+        options={{
+          title: 'À-propos',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="info-circle" color={color} size={size} />
+          ),
+        }} />
     </Tab.Navigator>)
 }
 

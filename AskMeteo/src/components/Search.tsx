@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Keyboard, Text, TextInput, View } from 'react-native';
 import style from "../assets/Style";
-import List from "./List";
-
-
 
 const Search = (props:any) => {
     
@@ -11,7 +8,7 @@ const Search = (props:any) => {
 
     const submit = () => {
         Keyboard.dismiss()
-        props.navigation.navigate("Meteo", {title: `Meteo - ${city}`,city: city})
+        props.navigation.navigate("Meteo", {title: `Météo / ${city}`,city: city})
     }
 
     return(
