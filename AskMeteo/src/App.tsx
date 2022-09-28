@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 const StackNavigator = () => {
       return (
         <Stack.Navigator initialRouteName='Search'>            
-          <Stack.Screen name="Search" component={Search} />
+          <Stack.Screen name="Search" component={Search} options={{title:'Rechercher une ville'}} />
           <Stack.Screen name="Meteo" component={List}  />
         </Stack.Navigator>
       );

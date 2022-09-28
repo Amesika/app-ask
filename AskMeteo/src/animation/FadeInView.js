@@ -17,7 +17,8 @@ export default class FadeInView extends React.Component {
             Animated.spring(
                 this.state.pan,
                 {
-                    toValue: { x: 0, y: 0 }
+                    toValue: { x: 0, y: 0 },
+                    useNativeDriver: true 
                 }
             )
         ]).start()
