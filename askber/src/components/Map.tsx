@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import tw from 'twrnc';
 import { selectDestination, selectOrigin } from '../slices/navSlice';
@@ -12,8 +12,20 @@ const Map = () => {
   const origin = useSelector(selectOrigin)
   const destination = useSelector(selectDestination)
 
+  const mapRef = useRef(null);
+  const inputEl = useRef();
+
+  useEffect(() => {
+    if (origin && destination) {
+      mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }
+      })
+    }
+  }, [destination])
+
   return (
     <MapView
+      ref={mapRef}
       style={tw`flex-1`}
       provider={PROVIDER_GOOGLE}
       region={{
