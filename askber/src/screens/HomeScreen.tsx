@@ -3,8 +3,13 @@ import React from 'react';
 import tw from 'twrnc';
 import NavOptions from '../components/NavOptions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {useDispatch}  from 'react-redux';
+import { setDestination, setOrigin } from '../slices/navSlice';
 
 const HomeScreen = () => {
+
+  const dispatch = useDispatch()
+
   return (
     <SafeAreaView style={tw`bg-white h-full`}>
       <View style={tw`p-5`}>
