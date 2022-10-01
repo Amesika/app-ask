@@ -30,11 +30,12 @@ const HomeScreen = () => {
           fetchDetails={true}
           onPress={(data, details = null) => {
            dispatch(setOrigin({
-            location: details?.geometry.location,
-            description: data.description
-           }))
+             latitude: details?.geometry.location.lat, 
+             longitude: details?.geometry.location.lng,
+             description: data.description
+            }))
 
-           dispatch(setDestination(null))
+            dispatch(setDestination(null))
           }}
           styles={{
             container: {
