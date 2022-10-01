@@ -25,7 +25,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
       <SafeAreaProvider>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName='MapScreen'>
             <Stack.Screen name='HomeScreen' component={HomeScreen} options={{headerShown:false}}/>
             <Stack.Screen name='MapScreen' component={MapScreen} options={{headerShown:false}}/>
             <Stack.Screen name='EatsScreen' component={EatsScreen} options={{headerShown:false}}/>
