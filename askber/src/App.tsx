@@ -1,12 +1,8 @@
-import React, { type PropsWithChildren } from 'react';
+import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
-  Text,
-  useColorScheme,
-  View,
 } from 'react-native';
 import { Provider } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
@@ -20,16 +16,21 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const App = () => {
 
   const Stack = createNativeStackNavigator();
-  
+
   return (
     <Provider store={store}>
       <NavigationContainer>
-      <SafeAreaProvider>
-          <Stack.Navigator initialRouteName='HomeScreen'>
-            <Stack.Screen name='HomeScreen' component={HomeScreen} options={{headerShown:false}}/>
-            <Stack.Screen name='MapScreen' component={MapScreen} options={{headerShown:false}}/>
-            <Stack.Screen name='EatsScreen' component={EatsScreen} options={{headerShown:false}}/>
-          </Stack.Navigator>
+        <SafeAreaProvider>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "height" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
+            style={{ flex: 1 }}>
+            <Stack.Navigator initialRouteName='HomeScreen'>
+              <Stack.Screen name='HomeScreen' component={HomeScreen} options={{ headerShown: false }} />
+              <Stack.Screen name='MapScreen' component={MapScreen} options={{ headerShown: false }} />
+              <Stack.Screen name='EatsScreen' component={EatsScreen} options={{ headerShown: false }} />
+            </Stack.Navigator>
+          </KeyboardAvoidingView>
         </SafeAreaProvider>
       </NavigationContainer>
     </Provider>

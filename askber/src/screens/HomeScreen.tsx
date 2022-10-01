@@ -1,9 +1,9 @@
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Image, SafeAreaView, StyleSheet, View } from 'react-native'
 import React from 'react';
 import tw from 'twrnc';
 import NavOptions from '../components/NavOptions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import {useDispatch}  from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setDestination, setOrigin } from '../slices/navSlice';
 import NavFavorites from '../components/NavFavorites';
 
@@ -30,10 +30,10 @@ const HomeScreen = () => {
           enablePoweredByContainer={false}
           fetchDetails={true}
           onPress={(data, details = null) => {
-           dispatch(setOrigin({
-             latitude: details?.geometry.location.lat, 
-             longitude: details?.geometry.location.lng,
-             description: data.description
+            dispatch(setOrigin({
+              latitude: details?.geometry.location.lat,
+              longitude: details?.geometry.location.lng,
+              description: data.description
             }))
 
             dispatch(setDestination(null))

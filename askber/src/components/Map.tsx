@@ -2,9 +2,10 @@ import { StyleSheet } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import tw from 'twrnc';
-import { selectDestination, selectOrigin } from '../slices/navSlice';
+import { selectDestination, selectOrigin, setTravelTimeInformation } from '../slices/navSlice';
 import { useSelector } from 'react-redux';
 import MapViewDirections from 'react-native-maps-directions';
+import { useDispatch } from 'react-redux';
 
 const Map = () => {
 
@@ -13,7 +14,7 @@ const Map = () => {
   const destination = useSelector(selectDestination)
 
   const mapRef = useRef(null);
-  const inputEl = useRef();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (origin && destination) {
@@ -22,6 +23,20 @@ const Map = () => {
       })
     }
   }, [destination])
+
+  useEffect(() => {
+
+    if (!origin || !destination) return;
+
+    const getTravelTime = async () => {
+      fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin.description}&destinations=${destination.description}&key=${GOOGLE_MAPS_APIKEY}`)
+        .then((res) => res.json())
+        .then(data => {
+          dispatch(setTravelTimeInformation(data.rows[0].elements[0]))
+        })
+    }
+    getTravelTime();
+  }, [origin, destination, GOOGLE_MAPS_APIKEY])
 
   return (
     <MapView
