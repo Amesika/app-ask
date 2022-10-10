@@ -1,0 +1,1 @@
+ssh-copy-id -i <clef_pub> jenkins@ip
